@@ -73,6 +73,10 @@ body {
     color: #D2A6FF;
 }
 
+.spinner {
+    color: #7FD962;
+}
+
 .welcome {
     display: flex;
     align-items: center;
@@ -93,6 +97,15 @@ body {
     animation: blink 1.1s steps(1) infinite;
 }
 
+.mascot {
+    color: #BFBDB6;
+    margin-top: 0.5rem;
+}
+
+.face {
+    color: #E6B450;
+}
+
 @keyframes blink {
     0%, 49%   { opacity: 1; }
     50%, 100% { opacity: 0; }
@@ -111,6 +124,7 @@ body {
 .boot-line.first-line           { animation-delay: 0.2s; }
 .boot-line.loading-achievements { animation-delay: 0.9s; }
 .boot-line.welcome              { animation-delay: 1.6s; }
+.boot-line.mascot               { animation-delay: 4s; }
 
 @keyframes fade-up {
     from { opacity: 0; transform: translateY(8px); }
