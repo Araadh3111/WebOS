@@ -8,18 +8,49 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="terminal-window">
-        <div class="terminal-header">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
+    <div id="landing">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="terminal-body">
+                <p class="boot-line first-line"><span class="Araadh">araadh@os</span> <span class="boot">~ % boot</span></p>
+                <p class="boot-line loading-achievements"><span class="spinner">⠋</span> loading about me</p>
+                <h1 class="boot-line welcome"><span class="typed"></span><span class="cursor"></span></h1>
+                <p class="boot-line mascot"><span class="face">(◕‿◕)</span> hey, glad you made it</p>
+                <p class="boot-line enter-prompt">→ press <span class="key">enter</span> to continue</p>
+            </div>
         </div>
-        <div class="terminal-body">
-            <p class="boot-line first-line"><span class="Araadh">araadh@os</span> <span class="boot">~ % boot</span></p>
-            <p class="boot-line loading-achievements"><span class="spinner">⠋</span> loading about me</p>
-            <h1 class="boot-line welcome"><span class="typed"></span><span class="cursor"></span></h1>
-            <p class="boot-line mascot"><span class="face">(◕‿◕)</span> hey, glad you made it</p>
+    </div>
+
+    <div id="desktop">
+        <div class="menu-bar">
+            <div class="menu-left">
+                <span class="brand">AraadhOS</span>
+                <!-- These open real apps (wired up in script.js via data-app) -->
+                <span class="menu-btn" data-app="settings">Settings</span>
+                <span class="menu-btn" data-app="terminal">Terminal</span>
+                <!-- Decorative menu placeholders -->
+                <span class="menu-dim">File</span>
+                <span class="menu-dim">Edit</span>
+                <span class="menu-dim">View</span>
+            </div>
+            <div class="menu-right">
+                <span class="status-icon" title="Wi-Fi: connected">📶</span>
+                <span class="status-icon" title="Battery: 87%">🔋</span>
+                <span id="clock">9:41 AM</span>
+            </div>
         </div>
+
+        <!-- The desktop surface. Windows are absolutely positioned inside here. -->
+        <div class="desktop-body" id="desktop-body">
+            <!-- Open application windows get appended here by script.js -->
+        </div>
+
+        <!-- The dock is built dynamically in script.js from the app registry. -->
+        <div class="dock" id="dock"></div>
     </div>
 </body>
 </html>
