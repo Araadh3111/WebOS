@@ -4,11 +4,6 @@ A personal operating system that lives in a browser tab. Boot it up, drag window
 
 > Introduction-to-software project, built with a lot of help and encouragement from [Hack Club](https://hackclub.com).
 
-<!-- Replace the placeholder below with a screen recording of the OS booting + opening a couple of apps. A GIF or MP4 both render on GitHub. -->
-<p align="center">
-  <img src="docs/demo.gif" alt="AraadhOS in action — boot sequence, dock, and windows" width="800">
-</p>
-
 <p align="center">
   <a href="#live-demo"><b>Live Demo</b></a> ·
   <a href="#features">Features</a> ·
@@ -26,8 +21,6 @@ A personal operating system that lives in a browser tab. Boot it up, drag window
 ---
 
 ## Screenshots
-
-<!-- Swap these placeholders for real screenshots saved in the docs/ folder. -->
 
 | Boot screen | Desktop |
 | :---: | :---: |
