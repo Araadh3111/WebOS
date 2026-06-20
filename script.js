@@ -38,6 +38,14 @@ function updateClock() {
         h = h % 12 || 12;
         document.getElementById("clock").textContent = `${h}:${m} ${ampm}`;
     }
+    // Friendly date in the menu bar (e.g. "Sat, Jun 20"). Guarded because the
+    // element doesn't exist on the landing screen before the desktop renders.
+    const dateEl = document.getElementById("date");
+    if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString(undefined, {
+            weekday: "short", month: "short", day: "numeric",
+        });
+    }
 }
 updateClock();
 setInterval(updateClock, 1000);
@@ -137,7 +145,6 @@ const PROFILE = {
     // link opens/downloads a file, open-projects opens the Projects app.
     files: [
         { type: "file", name: "README.txt", kind: "readme" },
-        { type: "file", name: "resume.pdf", kind: "link", url: "resume.pdf" },
         { type: "folder", name: "Projects", kind: "open-projects" },
     ],
 };
@@ -213,6 +220,7 @@ const APPS = {
     projects: { name: "Projects",   icon: "🚀", render: renderProjects },
     files:    { name: "Files",      icon: "🗂️", render: renderFiles },
     calc:     { name: "Calculator", icon: "🧮", render: renderCalculator },
+    notes:    { name: "Notes",      icon: "📝", render: renderNotes },
     settings: { name: "Settings",   icon: "⚙️", render: renderSettings },
     // `hidden` apps don't get a dock tile; they're opened from other apps
     // (e.g. clicking README.txt in Files opens this viewer window).
@@ -365,12 +373,54 @@ function updateDockIndicators() {
     });
 }
 
+/* ------------------------------------------------------------------ */
+/* Desktop icons — app shortcuts that live on the desktop surface,     */
+/* so it never looks empty before any window is open.                  */
+/* ------------------------------------------------------------------ */
+
+function buildDesktopIcons() {
+    const layer = document.createElement("div");
+    layer.className = "desktop-icons";
+
+    Object.keys(APPS).forEach((appId) => {
+        const app = APPS[appId];
+        if (app.hidden) return; // hidden helpers (e.g. README viewer) get no icon
+        const icon = document.createElement("div");
+        icon.className = "desktop-icon";
+        icon.dataset.app = appId;
+        icon.innerHTML = `
+            <span class="di-glyph">${app.icon}</span>
+            <span class="di-label">${app.name}</span>
+        `;
+        // Single click selects (OS feel); double click launches.
+        icon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            layer.querySelectorAll(".desktop-icon.selected")
+                .forEach((el) => el.classList.remove("selected"));
+            icon.classList.add("selected");
+        });
+        icon.addEventListener("dblclick", () => openApp(appId));
+        layer.appendChild(icon);
+    });
+
+    // Clicking empty desktop clears the selection.
+    desktopBody.addEventListener("mousedown", (e) => {
+        if (e.target === desktopBody || e.target === layer) {
+            layer.querySelectorAll(".desktop-icon.selected")
+                .forEach((el) => el.classList.remove("selected"));
+        }
+    });
+
+    desktopBody.appendChild(layer);
+}
+
 // Wire the menu-bar buttons (Settings, Terminal) to open their apps.
 document.querySelectorAll(".menu-btn").forEach((btn) => {
     btn.addEventListener("click", () => openApp(btn.dataset.app));
 });
 
 buildDock();
+buildDesktopIcons();
 
 // Apply saved settings (accent, scale, wallpaper, clock format) on startup.
 applySettings();
@@ -411,7 +461,6 @@ function renderTerminal(content) {
             print("  about           a quick intro");
             print("  open <app>      open an app (terminal, about, projects, files, settings)");
             print("  ls              list available apps");
-            print("  whoami          who you're logged in as");
             print("  date            current date & time");
             print("  echo <text>     print text back");
             print("  clear           clear the screen");
@@ -424,7 +473,6 @@ function renderTerminal(content) {
             // Only list apps that have a dock tile (skip hidden helpers).
             print(Object.keys(APPS).filter((id) => !APPS[id].hidden).join("   "), "accent-purple");
         },
-        whoami() { print("araadh"); },
         date() { print(new Date().toString()); },
         clear() { output.innerHTML = ""; },
         open(args) {
@@ -706,6 +754,59 @@ function renderReadme(content) {
             <div class="term-output" style="white-space:pre-wrap;">${body}</div>
         </div>
     `;
+}
+
+/* ------------------------------------------------------------------ */
+/* APP: Notes — an auto-saving notepad backed by localStorage          */
+/* ------------------------------------------------------------------ */
+
+const NOTES_KEY = "araadhos-notes";
+
+function renderNotes(content) {
+    content.innerHTML = `
+        <div class="notes">
+            <textarea class="notes-area" spellcheck="false"
+                placeholder="Jot something down — it saves automatically."></textarea>
+            <div class="notes-foot">
+                <span class="notes-status">saved</span>
+                <span class="notes-count"></span>
+            </div>
+        </div>
+    `;
+
+    const area = content.querySelector(".notes-area");
+    const status = content.querySelector(".notes-status");
+    const count = content.querySelector(".notes-count");
+
+    // Restore previous note. Set .value (not innerHTML) so the text is treated
+    // as plain content — no escaping needed and no markup can sneak in.
+    area.value = localStorage.getItem(NOTES_KEY) || "";
+
+    function updateCount() {
+        const text = area.value;
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        count.textContent = `${words} word${words === 1 ? "" : "s"} · ${text.length} chars`;
+    }
+
+    // Debounced save so we're not hammering localStorage on every keystroke.
+    let saveTimer;
+    area.addEventListener("input", () => {
+        status.textContent = "saving…";
+        status.classList.add("dim");
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+            try { localStorage.setItem(NOTES_KEY, area.value); } catch (e) {
+                console.warn("Could not save note:", e);
+            }
+            status.textContent = "saved";
+            status.classList.remove("dim");
+        }, 400);
+        updateCount();
+    });
+
+    updateCount();
+    // Drop the cursor in the note as soon as the window finishes opening.
+    setTimeout(() => area.focus(), 60);
 }
 
 /* ------------------------------------------------------------------ */

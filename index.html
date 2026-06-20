@@ -28,18 +28,22 @@
     <div id="desktop">
         <div class="menu-bar">
             <div class="menu-left">
-                <span class="brand">AraadhOS</span>
+                <span class="brand"><span class="brand-logo"></span>AraadhOS</span>
                 <!-- These open real apps (wired up in script.js via data-app) -->
                 <span class="menu-btn" data-app="settings">Settings</span>
                 <span class="menu-btn" data-app="terminal">Terminal</span>
+                <span class="menu-btn" data-app="notes">Notes</span>
                 <!-- Decorative menu placeholders -->
                 <span class="menu-dim">File</span>
                 <span class="menu-dim">Edit</span>
                 <span class="menu-dim">View</span>
             </div>
             <div class="menu-right">
-                <span class="status-icon" title="Wi-Fi: connected">📶</span>
-                <span class="status-icon" title="Battery: 87%">🔋</span>
+                <div class="status-pill">
+                    <span class="status-icon" title="Wi-Fi: connected">📶</span>
+                    <span class="status-icon" title="Battery: 87%">🔋</span>
+                </div>
+                <span id="date" class="menu-date"></span>
                 <span id="clock">9:41 AM</span>
             </div>
         </div>
