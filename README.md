@@ -16,7 +16,7 @@ A personal operating system that lives in a browser tab. Boot it up, drag window
 ## Live Demo
 
 <!-- Drop your deployed URL here once GitHub Pages / Vercel is live. -->
-**[https://web-os-phi-six.vercel.app/](#)** *(update this link after deploying)*
+**[https://web-os-phi-six.vercel.app/](#)** 
 
 ---
 
