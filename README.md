@@ -1,21 +1,14 @@
 # AraadhOS
 
-A personal operating system that lives in a browser tab. Boot it up, drag windows around, open a working terminal, tweak the theme — all built from scratch in vanilla **HTML, CSS, and JavaScript**. No frameworks, no build step, no dependencies.
-
+A personal web operating system 
 > Introduction-to-software project, built with a lot of help and encouragement from [Hack Club](https://hackclub.com).
 
-<p align="center">
-  <a href="#live-demo"><b>Live Demo</b></a> ·
-  <a href="#features">Features</a> ·
-  <a href="#running-locally">Run Locally</a> ·
-  <a href="#make-it-yours">Make It Yours</a>
-</p>
 
 ---
 
 ## Live Demo
 
-<!-- Drop your deployed URL here once GitHub Pages / Vercel is live. -->
+
 **[https://web-os-phi-six.vercel.app/](#)** 
 
 ---
@@ -45,8 +38,8 @@ A personal operating system that lives in a browser tab. Boot it up, drag window
 
 | App | What it does |
 | --- | --- |
-| **Terminal** | A genuinely working command interpreter (`help`, `ls`, `open`, `date`, `echo`, `clear`, and more). |
-| **About Me** | Bio, skills, and links — rendered straight from a single data object. |
+| **Terminal** | A working command interpreter (`help`, `ls`, `open`, `date`, `echo`, `clear`, and more). |
+| **About Me** | Bio, skills, and links. |
 | **Projects** | Terminal-style listing of projects with tech stacks and links. |
 | **Files** | A small, functional file browser. |
 | **Calculator** | A clean, working calculator. |
@@ -54,65 +47,10 @@ A personal operating system that lives in a browser tab. Boot it up, drag window
 | **Settings** | Live theming — accent color, clock format, UI scale, and wallpaper. |
 
 ---
-
-## Tech Stack
-
-- **HTML** — structure
-- **CSS** — frosted glass, animations, the ayu-dark palette, all hand-written
-- **JavaScript** — window system, app registry, terminal, and persistence (no libraries)
-
-The whole thing is driven by a small **app registry**: every app is just `{ name, icon, render() }` in one object. Add an entry and it automatically shows up in the dock, the desktop, the menu bar, and the terminal's `open` command.
-
 ---
 
-## Running Locally
-
-No build step, no install. Clone and open:
-
-```bash
-git clone https://github.com/Araadh3111/WebOS.git
-cd WebOS
-```
-
-Then either open `index.html` directly in your browser, or serve it locally (recommended, so `localStorage` behaves consistently):
-
-```bash
-# Python 3
-python -m http.server 8000
-# then visit http://localhost:8000
-```
-
----
-
-## Make It Yours
-
-All of your real content lives in one place — the `PROFILE` object near the top of `script.js`. Edit it and every app (About, Projects, Files) updates automatically. No HTML surgery required.
-
-```js
-const PROFILE = {
-  name: "Araadh",
-  tagline: "...",
-  about: [ /* your bio paragraphs */ ],
-  skills: [ /* ... */ ],
-  links:  [ /* ... */ ],
-  projects: [ /* ... */ ],
-  files: [ /* ... */ ],
-};
-```
-
-Want a new app? Write a `render(content)` function and add one line to the `APPS` registry — it'll appear everywhere on its own.
-
----
-
-## Deploying
-
-It's a static site, so any static host works:
-
-- **GitHub Pages** — Settings → Pages → deploy from `main`, root folder.
-- **Vercel / Netlify / Cloudflare Pages** — import the repo, no build command, output directory is the project root. On Vercel, set the Framework Preset to **Other**.
 
 ---
 
 ## Credits
-
 Built by [Araadh](https://github.com/Araadh3111) as an intro-to-software project, with thanks to [Hack Club](https://hackclub.com).
