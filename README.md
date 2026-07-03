@@ -30,6 +30,9 @@ A Web os made by me to learn vanilla website development
 ### UI
 I used Ayu Dark Ui color theme to make this website
 
+### AI USAGE DECLERATION:
+I used claude code to get the landing page animation and the components on the main os, I learnt a lot along the way and build stuff myself too. so in short claude code helped me witht hings I was stuck with as I am new to software but I did build most of it
+
 
 
 ---
